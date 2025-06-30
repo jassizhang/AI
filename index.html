@@ -1,425 +1,185 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人工智能发展史时间轴</title>
+    <title>人工智能发展时间轴</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f9f9f9;
-            padding: 20px;
-        }
-        
-        .container {
             max-width: 1000px;
             margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
         }
-        
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
-        
         .timeline {
             position: relative;
             padding: 20px 0;
         }
-        
         .timeline::before {
             content: '';
             position: absolute;
-            left: 50%;
             width: 4px;
-            height: 100%;
-            background: #3498db;
-            transform: translateX(-50%);
+            background-color: #3498db;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
         }
-        
         .era {
+            padding: 10px 40px;
             position: relative;
-            margin-bottom: 40px;
-        }
-        
-        .era-content {
-            width: 45%;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        .era-left .era-content {
-            margin-right: auto;
-        }
-        
-        .era-right .era-content {
-            margin-left: auto;
-        }
-        
-        .era-title {
-            font-size: 24px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 5px;
-            cursor: pointer;
-        }
-        
-        .era-period {
-            font-weight: bold;
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-        
-        .event {
+            width: 50%;
+            box-sizing: border-box;
             margin-bottom: 15px;
-            display: none;
-            /* 默认隐藏详细描述 */
         }
-        
-        .event.show {
-            display: block;
-            /* 显示详细描述 */
+        .era.left {
+            left: 0;
         }
-        
-        .event-year {
-            font-weight: bold;
-            color: #e74c3c;
-            cursor: pointer;
-            margin-bottom: 5px;
+        .era.right {
+            left: 50%;
         }
-        
-        .event-title {
-            font-weight: bold;
-            margin: 5px 0;
-        }
-        
         .era::after {
             content: '';
             position: absolute;
             width: 20px;
             height: 20px;
-            background: #3498db;
+            background-color: #fff;
+            border: 3px solid #3498db;
             border-radius: 50%;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 15px;
+            z-index: 1;
         }
-        
-        .toggle-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 14px;
+        .era.left::after {
+            right: -10px;
         }
-        
-        .toggle-btn:hover {
-            background-color: #2980b9;
+        .era.right::after {
+            left: -10px;
         }
-        
-        @media (max-width: 768px) {
+        .era-content {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .era-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .era-period {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .event {
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .event-year {
+            font-weight: bold;
+            color: #3498db;
+        }
+        .winter {
+            background-color: #f1f1f1;
+        }
+        .winter .era-title {
+            color: #7f8c8d;
+        }
+        .winter .event-year {
+            color: #95a5a6;
+        }
+        @media screen and (max-width: 768px) {
             .timeline::before {
-                left: 20px;
+                left: 31px;
             }
-            .era-content {
-                width: calc(100% - 60px);
-                margin-left: 60px !important;
+            .era {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
             }
-            .era::after {
-                left: 10px;
+            .era.right {
+                left: 0;
+            }
+            .era.left::after, .era.right::after {
+                left: 15px;
+            }
+            .event {
+                white-space: normal;
             }
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>人工智能发展史时间轴</h1>
-        <div style="text-align: center; margin-bottom: 20px;">
-            <button id="toggle-all" class="toggle-btn">展开全部</button>
+    <h1>人工智能发展时间轴</h1>
+    
+    <div class="timeline">
+        <!-- 第一次浪潮 -->
+        <div class="era left">
+            <div class="era-content">
+                <div class="era-title">第一次浪潮 (1950-1972)</div>
+                <div class="era-period">AI的诞生与早期探索</div>
+                <div class="event"><span class="event-year">1943年：</span>McCulloch和Pitts提出人工神经元模型 - 神经网络的理论雏形</div>
+                <div class="event"><span class="event-year">1950年：</span>图灵提出图灵测试 - 机器智能的判断标准</div>
+                <div class="event"><span class="event-year">1956年：</span>达特茅斯会议召开 - AI成为独立学科</div>
+                <div class="event"><span class="event-year">1957年：</span>Rosenblatt发明感知机 - 首个可训练神经网络</div>
+                <div class="event"><span class="event-year">1966年：</span>MIT开发ELIZA - 首个聊天机器人</div>
+                <div class="event"><span class="event-year">1972年：</span>MYCIN专家系统问世 - 医疗诊断准确率超医生</div>
+            </div>
         </div>
-
-        <div class="timeline">
-            <!-- 1. 人工智能的诞生 (20世纪40-50年代) -->
-            <div class="era era-left">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的诞生</h2>
-                    <div class="era-period">20世纪40-50年代</div>
-
-                    <div class="event">
-                        <div class="event-year">1943年</div>
-                        <div class="event-title">神经网络雏形</div>
-                        <p>Warren McCulloch & Walter Pitts提出首个神经元数学模型，模拟人脑神经元运作</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1950年</div>
-                        <div class="event-title">图灵测试</div>
-                        <p>艾伦·图灵发表《计算机器与智能》，提出"图灵测试"概念</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1956年</div>
-                        <div class="event-title">达特茅斯会议</div>
-                        <p>约翰·麦卡锡首次提出"人工智能"术语，AI成为独立学科</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1957年</div>
-                        <div class="event-title">感知机诞生</div>
-                        <p>Frank Rosenblatt发明Mark I感知机，成为早期神经网络原型</p>
-                    </div>
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
+        
+        <!-- 第一次寒冬 -->
+        <div class="era right winter">
+            <div class="era-content">
+                <div class="era-title">第一次寒冬 (1974-1980)</div>
+                <div class="era-period">幻灭与反思</div>
+                <div class="event"><span class="event-year">1973年：</span>英国发布《莱特希尔报告》 - 批评AI研究华而不实</div>
+                <div class="event"><span class="event-year">1974年：</span>DARPA削减AI经费 - 高校AI实验室半数关闭</div>
             </div>
-
-            <!-- 2. 人工智能的黄金时代 (20世纪50-70年代) -->
-            <div class="era era-right">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的黄金时代</h2>
-                    <div class="era-period">20世纪50-70年代</div>
-
-                    <div class="event">
-                        <div class="event-year">1966年</div>
-                        <div class="event-title">ELIZA聊天机器人</div>
-                        <p>MIT的Joseph Weizenbaum开发首个能模拟心理医生对话的聊天机器人</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1966-1972年</div>
-                        <div class="event-title">Shakey机器人</div>
-                        <p>斯坦福研究所研发首个具备自主移动、感知和规划能力的AI机器人</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1972年</div>
-                        <div class="event-title">MYCIN专家系统</div>
-                        <p>斯坦福大学开发能诊断细菌感染并推荐抗生素的专家系统</p>
-                    </div>
-
-
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
+        </div>
+        
+        <!-- 第二次浪潮 -->
+        <div class="era left">
+            <div class="era-content">
+                <div class="era-title">第二次浪潮 (1980-1987)</div>
+                <div class="era-period">专家系统时代</div>
+                <div class="event"><span class="event-year">1981年：</span>日本启动第五代计算机计划 - 投资8.5亿美元</div>
+                <div class="event"><span class="event-year">1986年：</span>反向传播算法突破 - 多层神经网络训练成为可能</div>
             </div>
-
-            <!-- 3. 人工智能的低谷期 (20世纪70-80年代) -->
-            <div class="era era-left">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的低谷期</h2>
-                    <div class="era-period">20世纪70-80年代</div>
-
-                    <div class="event">
-                        <div class="event-year">1966年</div>
-                        <div class="event-title">机器翻译失败</div>
-                        <p>美国政府停止资助机器翻译研究，因AI无法处理自然语言的复杂性</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1969年</div>
-                        <div class="event-title">神经网络衰落</div>
-                        <p>Marvin Minsky & Seymour Papert出版《感知器》，指出神经网络局限性</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1974年</div>
-                        <div class="event-title">AI研究资金锐减</div>
-                        <p>因AI未能兑现承诺，DARPA削减资助，进入"AI寒冬"</p>
-                    </div>
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
+        </div>
+        
+        <!-- 第二次寒冬 -->
+        <div class="era right winter">
+            <div class="era-content">
+                <div class="era-title">第二次寒冬 (1987-1993)</div>
+                <div class="era-period">商业化的挫败</div>
+                <div class="event"><span class="event-year">1987年：</span>LISP机器市场崩盘 - Symbolics等公司破产</div>
+                <div class="event"><span class="event-year">1990年：</span>AI产业缩水60% - 超200家初创公司倒闭</div>
             </div>
-
-            <!-- 4. 人工智能的繁荣期 (1980-1987年) -->
-            <div class="era era-right">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的繁荣期</h2>
-                    <div class="era-period">1980-1987年</div>
-
-                    <div class="event">
-                        <div class="event-year">1981年</div>
-                        <div class="event-title">日本第五代计算机计划</div>
-                        <p>日本政府投资8.5亿美元研发AI计算机，推动全球AI热潮</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1984年</div>
-                        <div class="event-title">Cyc知识库项目</div>
-                        <p>Douglas Lenat启动Cyc，试图构建人类常识知识库</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1986年</div>
-                        <div class="event-title">反向传播复兴</div>
-                        <p>Geoffrey Hinton、David Rumelhart重新推广反向传播算法</p>
-                    </div>
-
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
-            </div>
-
-            <!-- 5. 人工智能的寒冬 (1987-1993年) -->
-            <div class="era era-left">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的寒冬</h2>
-                    <div class="era-period">1987-1993年</div>
-
-                    <div class="event">
-                        <div class="event-year">1988年</div>
-                        <div class="event-title">专家系统衰落</div>
-                        <p>专家系统维护成本高、泛化能力差，企业放弃采用</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1990年</div>
-                        <div class="event-title">AI研究停滞</div>
-                        <p>因算力不足、数据匮乏，AI进展缓慢，公众兴趣降至冰点</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">1993年</div>
-                        <div class="event-title">AI商业化失败</div>
-                        <p>多数AI创业公司倒闭，仅少数(如IntelliCorp)存活</p>
-                    </div>
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
-            </div>
-
-            <!-- 6. 人工智能的春天 (1993年至今) -->
-            <div class="era era-right">
-                <div class="era-content">
-                    <h2 class="era-title">人工智能的春天</h2>
-                    <div class="era-period">1993年至今</div>
-
-                    <div class="event">
-                        <div class="event-year">1997年</div>
-                        <div class="event-title">深蓝击败国际象棋冠军</div>
-                        <p>IBM深蓝战胜Garry Kasparov，展示AI在策略游戏中的优势</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">2011年</div>
-                        <div class="event-title">IBM Watson赢得《危险边缘》</div>
-                        <p>Watson击败人类冠军Ken Jennings，证明AI在自然语言理解上的突破</p>
-                    </div>
-
-
-
-                    <div class="event">
-                        <div class="event-year">2016年</div>
-                        <div class="event-title">AlphaGo击败李世石</div>
-                        <p>DeepMind的AlphaGo战胜围棋世界冠军，标志AI在复杂决策上的突破</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">2022年</div>
-                        <div class="event-title">ChatGPT引爆AI浪潮</div>
-                        <p>OpenAI发布ChatGPT，开启生成式AI新时代</p>
-                    </div>
-
-                    <div class="event">
-                        <div class="event-year">2025年</div>
-                        <div class="event-title">中国AI崛起</div>
-                        <p>DeepSeek、腾讯混元等国产大模型崛起，推动AI Agent和多模态应用</p>
-                    </div>
-
-                    <button class="toggle-btn">展开详情</button>
-                </div>
+        </div>
+        
+        <!-- 第三次浪潮 -->
+        <div class="era left">
+            <div class="era-content">
+                <div class="era-title">第三次浪潮 (2006至今)</div>
+                <div class="era-period">深度学习与大模型时代</div>
+                <div class="event"><span class="event-year">2006年：</span>深度学习革命开始 - Hinton提出深度信念网络</div>
+                <div class="event"><span class="event-year">2012年：</span>AlexNet夺冠 - 引爆计算机视觉革命</div>
+                <div class="event"><span class="event-year">2016年：</span>AlphaGo战胜李世石 - AI围棋超越人类</div>
+                <div class="event"><span class="event-year">2022年：</span>ChatGPT发布 - 生成式AI进入大众视野</div>
+                <div class="event"><span class="event-year">2023年：</span>中国AI大模型爆发 - 文心一言、通义千问等发布</div>
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 点击时间点切换显示/隐藏详细描述
-            const eventYears = document.querySelectorAll('.event-year');
-            eventYears.forEach(year => {
-                year.addEventListener('click', function() {
-                    const event = this.parentElement;
-                    event.classList.toggle('show');
-                });
-            });
-
-            // 点击阶段标题切换显示/隐藏该阶段所有详细描述
-            const eraTitles = document.querySelectorAll('.era-title');
-            eraTitles.forEach(title => {
-                title.addEventListener('click', function() {
-                    const eraContent = this.parentElement;
-                    const events = eraContent.querySelectorAll('.event');
-                    const btn = eraContent.querySelector('.toggle-btn');
-
-                    const allHidden = Array.from(events).every(event => !event.classList.contains('show'));
-
-                    events.forEach(event => {
-                        if (allHidden) {
-                            event.classList.add('show');
-                        } else {
-                            event.classList.remove('show');
-                        }
-                    });
-
-                    btn.textContent = allHidden ? '收起详情' : '展开详情';
-                });
-            });
-
-            // 点击按钮切换显示/隐藏该阶段所有详细描述
-            const toggleBtns = document.querySelectorAll('.toggle-btn');
-            toggleBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const eraContent = this.parentElement;
-                    const events = eraContent.querySelectorAll('.event');
-
-                    const allHidden = Array.from(events).every(event => !event.classList.contains('show'));
-
-                    events.forEach(event => {
-                        if (allHidden) {
-                            event.classList.add('show');
-                        } else {
-                            event.classList.remove('show');
-                        }
-                    });
-
-                    this.textContent = allHidden ? '收起详情' : '展开详情';
-                });
-            });
-
-            // 一键展开/收起所有详细描述
-            const toggleAllBtn = document.getElementById('toggle-all');
-            let allExpanded = false;
-
-            toggleAllBtn.addEventListener('click', function() {
-                const events = document.querySelectorAll('.event');
-                const btns = document.querySelectorAll('.toggle-btn');
-
-                if (allExpanded) {
-                    events.forEach(event => event.classList.remove('show'));
-                    btns.forEach(btn => btn.textContent = '展开详情');
-                    this.textContent = '展开全部';
-                } else {
-                    events.forEach(event => event.classList.add('show'));
-                    btns.forEach(btn => btn.textContent = '收起详情');
-                    this.textContent = '收起全部';
-                }
-
-                allExpanded = !allExpanded;
-            });
-        });
-    </script>
 </body>
-
 </html>
