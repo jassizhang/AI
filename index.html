@@ -1,185 +1,433 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人工智能发展时间轴</title>
+    <title>人工智能发展浪潮时间轴</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Microsoft YaHei', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f5f7fa;
         }
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+        .wave-container {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .wave-header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .wave-header:hover {
+            background: linear-gradient(135deg, #2980b9, #34495e);
+        }
+        .wave-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .wave-content.show {
+            max-height: 2000px;
+            padding: 20px;
+            transition: max-height 0.8s ease-in;
         }
         .timeline {
             position: relative;
-            padding: 20px 0;
+            padding-left: 50px;
         }
         .timeline::before {
             content: '';
             position: absolute;
-            width: 4px;
-            background-color: #3498db;
+            left: 20px;
             top: 0;
             bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
-        .era {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-        }
-        .era.left {
-            left: 0;
-        }
-        .era.right {
-            left: 50%;
-        }
-        .era::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #fff;
-            border: 3px solid #3498db;
-            border-radius: 50%;
-            top: 15px;
-            z-index: 1;
-        }
-        .era.left::after {
-            right: -10px;
-        }
-        .era.right::after {
-            left: -10px;
-        }
-        .era-content {
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .era-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        .era-period {
-            font-style: italic;
-            color: #7f8c8d;
-            margin-bottom: 10px;
+            width: 4px;
+            background: #3498db;
         }
         .event {
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            position: relative;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
         }
-        .event-year {
+        .event:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+        .event::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 3px solid white;
+        }
+        .event-time {
             font-weight: bold;
             color: #3498db;
+            font-size: 18px;
+            margin-bottom: 5px;
+            cursor: pointer;
         }
-        .winter {
-            background-color: #f1f1f1;
+        .event-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #2c3e50;
         }
-        .winter .era-title {
-            color: #7f8c8d;
+        .event-desc {
+            display: none;
+            padding: 10px;
+            background: #f1f9fe;
+            border-radius: 5px;
+            margin-top: 10px;
+            animation: fadeIn 0.5s;
         }
-        .winter .event-year {
-            color: #95a5a6;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        @media screen and (max-width: 768px) {
-            .timeline::before {
-                left: 31px;
-            }
-            .era {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            .era.right {
-                left: 0;
-            }
-            .era.left::after, .era.right::after {
-                left: 15px;
-            }
-            .event {
-                white-space: normal;
-            }
+        .event-desc.show {
+            display: block;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0 40px;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-expand {
+            background: #27ae60;
+        }
+        .btn-expand:hover {
+            background: #219653;
+        }
+        .btn-collapse {
+            background: #e74c3c;
+        }
+        .btn-collapse:hover {
+            background: #c0392b;
+        }
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+        .toggle-icon.rotate {
+            transform: rotate(180deg);
+        }
+        .winter-event {
+            background-color: #fff5f5;
+            border-left: 4px solid #e74c3c;
+        }
+        .winter-event .event-title {
+            color: #c0392b;
         }
     </style>
 </head>
 <body>
-    <h1>人工智能发展时间轴</h1>
+    <h1>人工智能发展浪潮时间轴</h1>
     
-    <div class="timeline">
-        <!-- 第一次浪潮 -->
-        <div class="era left">
-            <div class="era-content">
-                <div class="era-title">第一次浪潮 (1950-1972)</div>
-                <div class="era-period">AI的诞生与早期探索</div>
-                <div class="event"><span class="event-year">1943年：</span>McCulloch和Pitts提出人工神经元模型 - 神经网络的理论雏形</div>
-                <div class="event"><span class="event-year">1950年：</span>图灵提出图灵测试 - 机器智能的判断标准</div>
-                <div class="event"><span class="event-year">1956年：</span>达特茅斯会议召开 - AI成为独立学科</div>
-                <div class="event"><span class="event-year">1957年：</span>Rosenblatt发明感知机 - 首个可训练神经网络</div>
-                <div class="event"><span class="event-year">1966年：</span>MIT开发ELIZA - 首个聊天机器人</div>
-                <div class="event"><span class="event-year">1972年：</span>MYCIN专家系统问世 - 医疗诊断准确率超医生</div>
-            </div>
+    <div class="controls">
+        <button class="btn btn-expand" id="expand-all">展开全部详情</button>
+        <button class="btn btn-collapse" id="collapse-all">收起全部详情</button>
+        <button class="btn" id="toggle-waves">展开/收起所有浪潮</button>
+    </div>
+    
+    <div class="wave-container">
+        <div class="wave-header" onclick="toggleWave(1)">
+            <span>第一次浪潮（1950s-1970s）：理论奠基</span>
+            <span class="toggle-icon">▼</span>
         </div>
-        
-        <!-- 第一次寒冬 -->
-        <div class="era right winter">
-            <div class="era-content">
-                <div class="era-title">第一次寒冬 (1974-1980)</div>
-                <div class="era-period">幻灭与反思</div>
-                <div class="event"><span class="event-year">1973年：</span>英国发布《莱特希尔报告》 - 批评AI研究华而不实</div>
-                <div class="event"><span class="event-year">1974年：</span>DARPA削减AI经费 - 高校AI实验室半数关闭</div>
-            </div>
-        </div>
-        
-        <!-- 第二次浪潮 -->
-        <div class="era left">
-            <div class="era-content">
-                <div class="era-title">第二次浪潮 (1980-1987)</div>
-                <div class="era-period">专家系统时代</div>
-                <div class="event"><span class="event-year">1981年：</span>日本启动第五代计算机计划 - 投资8.5亿美元</div>
-                <div class="event"><span class="event-year">1986年：</span>反向传播算法突破 - 多层神经网络训练成为可能</div>
-            </div>
-        </div>
-        
-        <!-- 第二次寒冬 -->
-        <div class="era right winter">
-            <div class="era-content">
-                <div class="era-title">第二次寒冬 (1987-1993)</div>
-                <div class="era-period">商业化的挫败</div>
-                <div class="event"><span class="event-year">1987年：</span>LISP机器市场崩盘 - Symbolics等公司破产</div>
-                <div class="event"><span class="event-year">1990年：</span>AI产业缩水60% - 超200家初创公司倒闭</div>
-            </div>
-        </div>
-        
-        <!-- 第三次浪潮 -->
-        <div class="era left">
-            <div class="era-content">
-                <div class="era-title">第三次浪潮 (2006至今)</div>
-                <div class="era-period">深度学习与大模型时代</div>
-                <div class="event"><span class="event-year">2006年：</span>深度学习革命开始 - Hinton提出深度信念网络</div>
-                <div class="event"><span class="event-year">2012年：</span>AlexNet夺冠 - 引爆计算机视觉革命</div>
-                <div class="event"><span class="event-year">2016年：</span>AlphaGo战胜李世石 - AI围棋超越人类</div>
-                <div class="event"><span class="event-year">2022年：</span>ChatGPT发布 - 生成式AI进入大众视野</div>
-                <div class="event"><span class="event-year">2023年：</span>中国AI大模型爆发 - 文心一言、通义千问等发布</div>
+        <div class="wave-content" id="wave-1">
+            <div class="timeline">
+                <div class="event">
+                    <div class="event-time">1950年</div>
+                    <div class="event-title">图灵测试提出</div>
+                    <div class="event-desc">
+                        艾伦·图灵发表《计算机器与智能》，提出"图灵测试"作为判断机器是否具有智能的标准，为人工智能奠定了理论基础。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1956年</div>
+                    <div class="event-title">达特茅斯会议</div>
+                    <div class="event-desc">
+                        达特茅斯夏季人工智能研究项目正式确立AI为一个研究领域，麦卡锡首次提出"人工智能"这一术语。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1957年</div>
+                    <div class="event-title">感知机发明</div>
+                    <div class="event-desc">
+                        罗森布拉特开发出感知机，这是第一个可训练的神经网络模型，标志着机器学习的重要早期进展。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1966年</div>
+                    <div class="event-title">ELIZA聊天机器人</div>
+                    <div class="event-desc">
+                        约瑟夫·维森鲍姆开发ELIZA，首个能模拟人类对话的程序（模仿心理治疗师），尽管只是简单的模式匹配，但很多用户误以为它真的有理解能力。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1972年</div>
+                    <div class="event-title">MYCIN专家系统</div>
+                    <div class="event-desc">
+                        MYCIN专家系统问世，能诊断血液感染并推荐抗生素，准确率超过部分医生，证明了AI在专业领域的实用价值。
+                    </div>
+                </div>
+                
+                <div class="event winter-event">
+                    <div class="event-time">1974-1980年</div>
+                    <div class="event-title">第一次AI寒冬</div>
+                    <div class="event-desc">
+                        由于过度乐观的预期未能实现（如机器翻译一塌糊涂），DARPA等机构大幅削减经费。英国莱特希尔报告严厉批评AI研究"华而不实"，导致研究陷入低谷。
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <div class="wave-container">
+        <div class="wave-header" onclick="toggleWave(2)">
+            <span>第二次浪潮（1980s-1990s）：专家系统时代</span>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="wave-content" id="wave-2">
+            <div class="timeline">
+                <div class="event">
+                    <div class="event-time">1982年</div>
+                    <div class="event-title">Hopfield网络</div>
+                    <div class="event-desc">
+                        霍普菲尔德提出Hopfield网络，解决了部分神经网络记忆问题，为神经网络研究注入新活力。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1986年</div>
+                    <div class="event-title">反向传播算法</div>
+                    <div class="event-desc">
+                        鲁梅尔哈特等人完善反向传播算法（Backpropagation），使多层神经网络训练成为可能，为深度学习埋下伏笔。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1988年</div>
+                    <div class="event-title">贝叶斯网络</div>
+                    <div class="event-desc">
+                        珀尔提出贝叶斯网络，推动了概率推理在AI中的应用，为不确定性推理提供新方法。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1981年</div>
+                    <div class="event-title">日本第五代计算机计划</div>
+                    <div class="event-desc">
+                        日本启动第五代计算机计划，投资8.5亿美元研发能推理、对话的AI计算机，虽最终未能实现目标，但促进了并行计算等技术发展。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">1984年</div>
+                    <div class="event-title">Cyc常识知识库项目</div>
+                    <div class="event-desc">
+                        启动Cyc常识知识库项目，目标是编码人类所有常识。30多年后的今天，Cyc已包含2500万条常识，但仍远未完成。
+                    </div>
+                </div>
+                
+                <div class="event winter-event">
+                    <div class="event-time">1987-1993年</div>
+                    <div class="event-title">第二次AI寒冬</div>
+                    <div class="event-desc">
+                        LISP机器市场崩盘（Symbolics等公司破产），专家系统维护成本暴增（知识工程师时薪超300美元），AI产业规模缩水60%，超过200家AI初创公司倒闭。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="wave-container">
+        <div class="wave-header" onclick="toggleWave(3)">
+            <span>第三次浪潮（2006-2025）：深度学习与大模型革命</span>
+            <span class="toggle-icon">▼</span>
+        </div>
+        <div class="wave-content" id="wave-3">
+            <div class="timeline">
+                <div class="event">
+                    <div class="event-time">2006年</div>
+                    <div class="event-title">深度信念网络</div>
+                    <div class="event-desc">
+                        辛顿团队提出深度信念网络，突破神经网络训练瓶颈，开启深度学习革命。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2012年</div>
+                    <div class="event-title">AlexNet突破</div>
+                    <div class="event-desc">
+                        AlexNet在ImageNet竞赛中碾压传统算法（错误率从26%降至15%），引爆计算机视觉革命。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2014年</div>
+                    <div class="event-title">生成对抗网络（GAN）</div>
+                    <div class="event-desc">
+                        古德费洛提出GAN，使AI获得"创造力"，能够生成逼真图像和内容。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2016年</div>
+                    <div class="event-title">AlphaGo击败李世石</div>
+                    <div class="event-desc">
+                        AlphaGo 4:1战胜围棋冠军李世石，采用蒙特卡洛树搜索+深度强化学习，下出人类棋谱从未出现的"神之一手"。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2017年</div>
+                    <div class="event-title">Transformer架构</div>
+                    <div class="event-desc">
+                        Transformer架构诞生，奠定大语言模型基础，成为现代AI的核心技术。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2020年</div>
+                    <div class="event-title">GPT-3发布</div>
+                    <div class="event-desc">
+                        OpenAI发布GPT-3（1750亿参数），能写诗、编程、聊哲学，展示"小样本学习"能力，引发大模型军备竞赛。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2022年</div>
+                    <div class="event-title">ChatGPT横空出世</div>
+                    <div class="event-desc">
+                        ChatGPT（基于GPT-3.5）5天用户破百万，两个月月活破亿，让普通人直观感受到AI的强大。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2024年</div>
+                    <div class="event-title">多模态突破</div>
+                    <div class="event-desc">
+                        OpenAI发布Sora文生视频模型，GPT-4V实现图像理解，机器人开始用AI自主决策，AI进入多模态时代。
+                    </div>
+                </div>
+                
+                <div class="event">
+                    <div class="event-time">2025年</div>
+                    <div class="event-title">中国AI大模型崛起</div>
+                    <div class="event-desc">
+                        DeepSeek推出的R1模型在代码生成和逻辑推理任务上超越GPT-4，华为盘古大模型在气象预测和矿山自动化中实现突破，国产大模型生态持续繁荣。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换单个浪潮的显示/隐藏
+        function toggleWave(waveNum) {
+            const content = document.getElementById(`wave-${waveNum}`);
+            const icon = document.querySelector(`#wave-${waveNum}`).previousElementSibling.querySelector('.toggle-icon');
+            content.classList.toggle('show');
+            icon.classList.toggle('rotate');
+        }
+
+        // 展开所有事件详情
+        document.getElementById('expand-all').addEventListener('click', function() {
+            document.querySelectorAll('.event-desc').forEach(desc => {
+                desc.classList.add('show');
+            });
+        });
+
+        // 收起所有事件详情
+        document.getElementById('collapse-all').addEventListener('click', function() {
+            document.querySelectorAll('.event-desc').forEach(desc => {
+                desc.classList.remove('show');
+            });
+        });
+
+        // 切换所有浪潮的显示/隐藏
+        document.getElementById('toggle-waves').addEventListener('click', function() {
+            const allContents = document.querySelectorAll('.wave-content');
+            const allIcons = document.querySelectorAll('.toggle-icon');
+            const isAnyOpen = Array.from(allContents).some(content => content.classList.contains('show'));
+            
+            allContents.forEach(content => {
+                if (isAnyOpen) {
+                    content.classList.remove('show');
+                } else {
+                    content.classList.add('show');
+                }
+            });
+            
+            allIcons.forEach(icon => {
+                if (isAnyOpen) {
+                    icon.classList.remove('rotate');
+                } else {
+                    icon.classList.add('rotate');
+                }
+            });
+        });
+
+        // 点击事件时间显示/隐藏详情
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.event-time').forEach(time => {
+                time.addEventListener('click', function() {
+                    const desc = this.nextElementSibling.nextElementSibling;
+                    desc.classList.toggle('show');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
